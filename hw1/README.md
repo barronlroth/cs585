@@ -1,10 +1,10 @@
 # Part 1: Paper-and-pencil Assignment: Color, Grayscale, and Binary Images; Projections
 
-# 1. Color, Grayscale, and Binary Images:
-## a. Describe two ways of representing color in an image.
+### 1. Color, Grayscale, and Binary Images:
+#### a. Describe two ways of representing color in an image.
     RGB & HSV
 	
-## b. For each representation, write a program that creates a grayscale image.
+#### b. For each representation, write a program that creates a grayscale image.
 
 RGB -> Grayscale
 ```c++
@@ -65,15 +65,16 @@ imshow("BGR to gray", im);
 waitKey();
 ```
 
-## c. Provide code to transform a grayscale image I(x,y) into a binary image B(x,y).
+#### c. Provide code to transform a grayscale image I(x,y) into a binary image B(x,y).
 
-# 2. Projections:
+### 2. Projections:
 
-## a. Define the horizontal and vertical projection vectors H and V mathematically for a binary image B(x,y).
+#### a. Define the horizontal and vertical projection vectors H and V mathematically for a binary image B(x,y).
 
+P1(y) = sum[x B(x,y)]
+P2(x) = sum[y B(x,y)]
 
-
-## b. Give code to compute H and V.
+#### b. Give code to compute H and V.
 
 ```c++
 #include <cv.h>
@@ -133,13 +134,50 @@ int main( int argc, char** argv )
 }
 ```
 
-# 3. Object size. Assume your binary image B(x,y) contains a single white object in a black background.
+### 3. Object size. Assume your binary image B(x,y) contains a single white object in a black background.
 
-## a. Give the mathematical formula for computing the area of the object.
+#### a. Give the mathematical formula for computing the area of the object.
 B(x,y) = 1 if I(x,y) > T
        = 0 otherwise
 Area = sum[x = xdim-1] sum[y=ydim-1] B(x,y)
 
-## b. Give code to compute the area.
+#### b. Give code to compute the area.
+
+```c++
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+#include <iostream>
+#include <string>
+
+using namespace cv;
+using namespace std;
 
 
+int main()
+{
+    Mat image;
+    image = imread("binary.jpg", IMREAD_COLOR); // Read the file
+    int area = 0;
+
+
+    if (image.empty())                      // Check for invalid input
+    {
+        cout << "Could not open or find the image" << std::endl;
+        return 0;
+    }
+
+    for (int y = 0; y < image.rows; y++)
+    {
+        for (int x = 0; x < image.cols; x++)
+        {
+            if (x)
+                area++;
+        }
+    }
+
+    waitKey(0); // Wait for a keystroke in the window
+    return 0;
+}
+```
